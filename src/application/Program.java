@@ -17,39 +17,36 @@ public class Program {
 		System.out.print("Room number: ");
 		int enterNumberOfRoom = sc.nextInt();
 		System.out.print("Check-in date (dd/MM/yyyy): ");
-		Date enterDateOfCheckIn = sdf.parse(sc.next());
+		Date checkIn = sdf.parse(sc.next());
 		System.out.print("Check-out date (dd/MM/yyyy): ");
-		Date enterDateOfCheckOut = sdf.parse(sc.next());
+		Date checkOut = sdf.parse(sc.next());
 
-		if (!enterDateOfCheckOut.after(enterDateOfCheckIn)) {
+		if (!checkOut.after(checkIn)) {
 			System.out.println("Error in reservation: Check-out date must to after check-in date");
-		} else {
-			Reservation reservation = new Reservation(enterNumberOfRoom, enterDateOfCheckIn, enterDateOfCheckOut);
-			System.out.println();
+		}
+		else {
+			Reservation reservation = new Reservation(enterNumberOfRoom, checkIn, checkOut);
 			System.out.println("Reservation: " + reservation);
-
+			
 			System.out.println();
 			System.out.println("Enter data to update the reservation: ");
 			System.out.print("Check-in date (dd/MM/yyyy): ");
-			enterDateOfCheckIn = sdf.parse(sc.next());
+			checkIn = sdf.parse(sc.next());
 			System.out.print("Check-out date (dd/MM/yyyy): ");
-			enterDateOfCheckOut = sdf.parse(sc.next());
+			checkOut = sdf.parse(sc.next());
 
-			Date now = new Date();
+			// date to update the reservation
+			String error = reservation.updateDate(checkIn, checkOut);
 
-			if (enterDateOfCheckIn.before(now) || enterDateOfCheckOut.before(now)) {
-				System.out.println("Error in reservation: Reservation dates for update must be future dates");
-			} else if (!enterDateOfCheckOut.after(enterDateOfCheckIn)) {
-				System.out.println("Error in reservation: Check-out date must to after check-in date");
-			} else {
-				// date to update the reservation
-				reservation.updateDate(enterDateOfCheckIn, enterDateOfCheckOut);
+			if (error != null) {
+				System.out.println("Error in Reservation: " + error);
+			} 
+			else {
 				System.out.println("Reservation: " + reservation);
 			}
-
+			
+			sc.close();
 		}
-
-		sc.close();
 
 	}
 
